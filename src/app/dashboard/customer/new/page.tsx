@@ -23,7 +23,7 @@ export default async function NewCustomer() {
                 </div>
 
                 <NewCustomerForm />
-                <NewCustomerForm /> 
+                
             </main>
         </Container>
     )
