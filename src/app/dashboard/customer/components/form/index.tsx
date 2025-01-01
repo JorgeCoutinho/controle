@@ -4,7 +4,10 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@/components/input"
+import { api } from "@/lib/api"
+import { useRouter } from "next/navigation"
 
+// Define the schema for the form
 const schema = z.object({
     name: z.string().min(1, "Nome é obrigatório"),
     email: z.string().email("Email inválido").min(1, "Email é obrigatório"),
@@ -15,16 +18,28 @@ const schema = z.object({
     }),
     address: z.string()
 })
+// Define the type of the form data
 
 type FormData = z.infer<typeof schema>
 
-export const NewCustomerForm = () => {
+// Create the form component
+export const NewCustomerForm = ({userId}: {userId:string}) => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema)
     })
 
-    function handleRegisterCustomer(data: FormData) {
-        console.log(data);
+    const router = useRouter()
+
+    async  function handleRegisterCustomer(data: FormData) {
+        await api.post("/api/customer", {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            userId: userId
+        })
+
+        router.replace("/dashboard/customer")
         
     }
 

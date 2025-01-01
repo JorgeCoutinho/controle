@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import prismaClient from "@/lib/prisma";
 
+
+// POST /api/customer
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
