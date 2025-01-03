@@ -31,6 +31,16 @@ export default async function NewTicket() {
             return 
         }
 
+        await prismaClient.ticker.create({
+            data:{
+                name: name as string,
+                description: description as string,
+                customerId: customerId as string,
+                status: 'ABERTO',
+                userId: session?.user.id
+            }
+        })
+        redirect('/')
     }
 
     
