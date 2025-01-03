@@ -20,6 +20,21 @@ export default async function NewTicket() {
         }
     })
 
+    async function handleRegisterTicket(formData: FormData) {
+        'use server'
+
+        const name = formData.get('name') 
+        const description = formData.get('description') 
+        const customerId = formData.get('customer') 
+
+        if(!name || !description || !customerId) {
+            return 
+        }
+
+    }
+
+    
+
     return (
         <Container>
             <main className="mt-9 mb-2" >
@@ -31,13 +46,14 @@ export default async function NewTicket() {
                     <h1 className="text-3xl font-bold">Novo Chamado</h1>
                 </div>
 
-                <form className="flex flex-col mt-6">
+                <form className="flex flex-col mt-6" action={handleRegisterTicket}>
                     <label className="mb-1 font-medium text-lg">Nome do chamado</label>
                     <input
                         type="text"
                         className="w-full border-2 rounded-md px-2 mb-2 h-11"
                         placeholder="Digite o nome do chamado "
                         required
+                        name="name"
                     />
 
                     <label className="mb-1 font-medium text-lg">Descreva o problema</label>
@@ -46,12 +62,16 @@ export default async function NewTicket() {
                         className="w-full border-2 rounded-md px-2 mb-2 h-24 resize-none"
                         placeholder="Descreva o problema"
                         required
+                        name="description"
                     ></textarea>
 
                     {customers.length !== 0 && (
                         <>
                             <label className="mb-1 font-medium text-lg">Selecione o cliente</label>
-                            <select className="w-full border-2 rounded-md px-2 mb-2 h-11 resize-none bg-whitex" >
+                            <select
+                                className="w-full border-2 rounded-md px-2 mb-2 h-11 resize-none bg-whitex"
+                                name="customer"
+                            >
                                 {customers.map(customer => (
                                     <option
                                         key={customer.id}
@@ -74,11 +94,11 @@ export default async function NewTicket() {
                         className="bg-blue-500 text-white font-bold px-2 h-11 rounded-md my-4 disabled:cursor-not-allowed"
                         disabled={customers.length === 0}
                     >
-                    Cadastrar
-                </button>
+                        Cadastrar
+                    </button>
 
-            </form>
-        </main>
+                </form>
+            </main>
         </Container >
     )
 }
